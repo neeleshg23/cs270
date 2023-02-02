@@ -1,0 +1,48 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,hyperref,array,xcolor,multicol,verbatim,mathpazo,algorithm,algpseudocode,enumerate,tikz}
+\usepackage[normalem]{ulem}
+\usepackage{graphicx}
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\begin{document}
+
+%%%% In most cases you won't need to edit anything above this line %%%%
+
+\title{\vspace{-4cm}CS 270 Homework 4}
+\author{Neel Gupta} 
+\maketitle
+
+\begin{problem}{1}
+    Design a data structure that has the following properties. Assume $n$ elements in the structure and that the data structure property needs to be preserved at the end of each operation.
+    \begin{itemize}
+        \item Find median takes $O(1)$ time
+        \item Insert takes $O(\log n)$ time
+    \end{itemize}
+    Do the following:
+    \begin{enumerate}[(a)]
+        \item Describe how your data structure will work.
+        \item Give algorithms that implement Find-Median() and Insert() functions.
+    \end{enumerate}
+\end{problem}
+\begin{problem}{2}
+    Let us say that a graph $G=(V,E)$ is a near tree if it is connected and has at most $n+k$ edges, where $n=|V|$ and $k$ is a \textbf{constant}. Give an algorithm with running time $O(n)$ that takes a near tree $G$ with costs on its edges, and returns a minimum spanning tree of $G$. You may assume all edge costs are distinct.
+\end{problem}
+\begin{problem}{3}
+    A new startup FastRoute wants to route information along a path in a communication netweork, represented as a graph. Each vertex and edge represents a router and a wire between routers respectively. The wires are weighted by the maximum bandwidth they can support. FastRoute comes to you and asks you to develop al algorithm to find the path with maximum bandwidth from any source $s$ to any destination $t$. As you would expect, the bandwidth of a path is the minimum of the bandwidths of the edges on that path; the minimum edge is the bottleneck. Explain how to modify Dijkstra's algorithm to do this.
+\end{problem}
+\begin{problem}{4}
+    Given a connected graph $G=(V,E)$ with positive edge weights. In $V$, $s$ and $t$ are two nodes for shortest path computation, prove or disprove with explanatations.
+    \begin{enumerate}[(a)]
+        \item If all edge weights are unique, then there is a single shortest path between any two nodes in $V$.
+        \item If each edge's weight is increased by $k$, the shortest path cost between $s$ and $t$ will incrase by a multiple of $k$.
+        \item If the weight of some edge $e$ decreases by $k$, then the shortest path cost between $s$ and $t$ will decrease by at most $k$.
+        \item If each edge's weight is replaced by its square, i.e. $w$ to $w^2$, then the shortest path between $s$ and $t$ will be the same as before but with different costs.
+    \end{enumerate}
+\end{problem}
+\begin{problem}{5}
+    Consider a directed, weighted graph $G$ where all edge weights are positive. Propose an efficient method based on Dijsktra's algorithm to find a lowest-cost path from node $s$ to node $t$, given that you may set one edge weight to zero.
+\end{problem}
+\end{document}
