@@ -1,0 +1,106 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,hyperref,array,xcolor,multicol,verbatim,mathpazo,algorithm,algpseudocode}
+\usepackage[normalem]{ulem}
+\usepackage[pdftex]{graphicx}
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\begin{document}
+
+%%%% In most cases you won't need to edit anything above this line %%%%
+
+\title{\vspace{-4.1cm}CS 270 Homework 1}
+\author{Neel Gupta}
+\maketitle
+
+\begin{problem}{1}
+In every instance of the Stable Matching Problem, there is a stable matching containing a pair $(m,w)$ s.t. $m$ is ranked first on $w$'s preference list and $w$ is ranked first on $m$'s preference list.
+\end{problem}
+
+\textit{Answer: } False.
+
+The stable pair $(m,w)$ may not necessarily have $m$ as $w$'s most preferred partner while always having a pair where $w$ is ranked first on $m$'s preference list.
+
+Consider the following counterexample.
+
+Let $M = \{m, m'\} \text{ and } W = \{w, w'\}$ with the following preferences:
+
+$m$ prefers $w$ to $w'$.
+
+$m'$ prefers $w'$ to $w$.
+
+$w$ prefers $m'$ to $m$.
+
+$w'$ prefers $m$ to $m'$.
+
+When men propose first, the stable matching created will be $S =\{(m,w),(m', w')\}$. Hence, the pairing abides by the men's preferences but not the women's since a match exists between a man and his most wanted woman but not between a woman and her most wanted man, thus disproving our claim. 
+
+\begin{problem}{2}
+For some $n\geq 2, \exists$ a set of preferences for some $n$ men and $n$ women s.t. the stable matching returned by the G-S algorithm when men are proposing, every woman is matched with their most preferred man, even though that man does not prefer that woman the most. 
+\end{problem}
+
+\textit{Answer: } False.
+
+In the G-S algorithm, every woman is matched with her most preferred man who also has not been matched yet. If a woman is matched with not her most preferred man, then that man who is her most preferred must have already matched with a woman who is higher ranked than her. Since women can only accept new proposals from men who are ranked higher than the current man that she is with, men will only re-propose to women who are better ranked than his current match. This implies that a man must be with his most preferred match if a woman is then matched with a man who is not her top choice. If a woman is not with her top choice, then that man must be with a better woman already. Thus, if some men are already matched with women who aren't their top choices, then not every woman can be with her top choice. 
+
+\begin{problem}{3}
+Consider a modified Stable Matching Problem with hospitals and students being matched for residency, where hospitals have multiple matches and there is a surplus of students.
+
+Show that there is always a stable assignmentof students to hospitals, and give an algorithm to do so.
+\end{problem}
+
+\textit{Answer: } $\exists$ a stable algorithm to match students to hospitals.
+
+Hospitals are either full of residents or have open positions available. Similarly, students are either committed or open to getting matched.
+
+\begin{algorithm}
+\caption{Modified G-S algorithm for resident matching}
+\begin{algorithmic}
+\While{a hospital $h$ has positions open}
+	\State{$h$ offers its next preferred student $s$ a spot}
+	\If{$s$ has not committed}
+		\State{$s$ accepts $h$'s offer}
+	\ElsIf{$s$ is already matched to $h'$}
+		\If{$h$ is preferred to $h'$}
+			\State{$s$ is matched to $h$, thus unmatched to $h'$}
+			\State{$h'$ has one more position open}
+			\State{$h$ has filled one more position}
+		\Else
+			\State{$s$ stays with $h'$}
+		\EndIf
+	\EndIf
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\begin{problem}{4}
+Can a man or woman end up better off by lying about their preferences? If not, give a proof that switching the order of a pair in a woman's preference list cannot improve her matching. If so, give an example set of preference lists where a woman's switch of a pair in her preference list improves her partner.
+\end{problem}
+\newpage
+\textit{Answer: } Yes, a lie or switch in preferences can improve partners.
+
+Consider the following case.
+
+Let $M = \{A, B, C\}$ and $W = \{D, E, F\}$ with the following preference lists.
+
+$A$ prefers $D > E > F$.
+
+$B$ prefers $E > D > F$.
+
+$C$ prefers $D > E > F$.
+
+$D$ prefers $B > A > C$.
+
+$E$ prefers $A > B > C$.
+
+$F$ prefers $A > B > C$.
+
+After running the G-S algorithm with men proposing on $M$, $W$, and their preference lists, we are given the stable matching $S = \{(A,D),(B,E),(C,F)\}$.
+
+Should woman $D$ lie about her preferences through a pairwise switch in order, her list would become $B > C > A$.
+
+After running the G-S algorithm where men propose on $M$, $W$, and the modified preference list, the stable matching would become $S = \{(A,E),(B,D),(C,F)\}$. Therefore, the woman who lied $D$ ends up with a more preferable match by lying. If $D$ was truthful, she would end up with a less preferable matching. 
+
+\end{document}  
