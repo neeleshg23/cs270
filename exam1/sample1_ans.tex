@@ -1,0 +1,49 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,hyperref,array,xcolor,multicol,verbatim,mathpazo,algorithm,algpseudocode}
+\usepackage[normalem]{ulem}
+\usepackage[pdftex]{graphicx}
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\begin{document}
+
+\title{\vspace{-4cm}CS 270 Exam 1 Sample 1}
+\author{Neel Gupta}
+\maketitle 
+
+\begin{problem}{1} 
+    True/False Questions
+\end{problem}
+\textit{Answer:}
+\begin{itemize}
+    \item True. A cyclic directed graph cannot have a topological ordering.
+    \item False. BFS can be used to find the shortest path on unweighted graphs.
+    \item False. The same graph can have multiple topological orderings if sibling nodes aren't ordered.
+    \item True. All MST algorithms are greedy because they always select an edge with a specific criteria to create the overall MST.
+    \item False. A strongly connected graph means that there exists a path from all nodes to every other nodes, but since edges are directed, no bidirectionality means going the reverse direction can take much longer.
+    \item True. The shortest path will be the same because edges are directed.
+    \item True. The shortest path will be the same because edges are directed.
+    \item False. Consider the following counter example. $M=(m_1,m_2)$ and $W=(w_1,w_2)$. If $m_1$ and $m_2$ both prefer $w_1$ over $w_2$ \textbf{and} $w_1$ and $w_2$ both prefer $m_1$ over $m_2$, then the following matching will result $\{(m_1,w_1),(m_2,w_2)\}$, where a man and a woman are each other's last preference and get matched.
+    \item True. After every removal of the largest element, we need to trickle down which takes $\log n$ time, therefore $k \log n > c*1$ for some $c$.
+    \item True. A strongly connected (directed) graph must have a cycle because if the paths from $u$ to $v$ and from $v$ to $u$ exist and are disjoint, then their union will create a cycle.
+    \item True. The heaviest edge weight is removed until the graph becomes unconnected or acyclic in the Reverse Delete algorithm to create the MST.
+    \item False. The height of a complete binary tree with $n$ nodes is $O(\log n)$.
+    \item True. Dijkstra's will work on any non-negative cost edged graph.
+\end{itemize}
+
+\begin{problem}{2} 
+    Multiple Choice Questions
+\end{problem}
+\textit{Answer:}
+\begin{enumerate}
+    \item (d). Finding an arbitrary element has a worst case $O(n)$ in a binary heap because there does not exist any ordering between left and right subtrees, and there is only an ordering between parent and children nodes.
+    \item (a). Insertion/Bubble/Selection all run in $O(n^2)$, but they are lower bounded by $n^2$ as well since it does not do all $n$ iterations of work at each iteration. Rather it does some amount of work up to $n$ at each iteration.
+    \item (c). Men end up with their best valid partner that they have not proposed to before.
+    \item (a) \& (c). $\log n+n\log n$ and $n+\log(n^n)$ are both $\Theta(n\log n)$
+    \item (a) \& (b). $n\log n$ and $n^2$ are bigger than $n$, but less than $n^3$.
+    \item (e). The runtime of Dijkstra's algorithm using a binary heap is 
+    $O(|E|\log|V|)$.
+\end{enumerate}
+
+\end{document}
