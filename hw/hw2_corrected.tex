@@ -1,0 +1,243 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,hyperref,array,xcolor,multicol,verbatim,mathpazo,algorithm,algpseudocode, enumerate}
+\usepackage[normalem]{ulem}
+\usepackage[pdftex]{graphicx}
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\begin{document}
+
+%%%% In most cases you won't need to edit anything above this line %%%%
+
+\title{\vspace{-4.5cm}CS 270 Homework 2}
+\author{Neel Gupta} 
+\maketitle 
+\begin{problem}{1}
+Arrange the following functions by asymptotic time complexity using big-$O$ notation.
+\begin{enumerate}[a)]
+	\item $2^{\log n}$
+	\item $2^{3n}$
+	\item $n^{n\log n}$
+	\item $\log n$
+	\item $n\log(n^2)$
+	\item $n^{n^2}$
+	\item $\log(\log(n^n))$
+\end{enumerate}
+\end{problem}
+
+\textit{Answer: } $\log n \subset \log(\log (n^n)) \subset 2^{\log n} \subset n \log n^2 \subset 2^{3n} \subset n^{n\log n} \subset n^{n^2}$
+
+\begin{align*}
+2^{\log n} &= n \\
+2^{3n} &= (2^3)^n = 8^n\\
+n^{n\log n} &= 2^{\log(n^{n\log n})} = 2^{{n\log n}*\log n} = 2^{n(\log n)^2}\\
+n\log(n^2) &= 2n\log n\\
+n^{n^2} &= 2^{\log n^{n^2}} = 2^{n^2\log n}\\
+\log(\log(n^n)) &= \log(n\log n)
+\end{align*}
+
+\textit{Corrections:} \\ $\log n \textbf{ = } \log(\log (n^n)) \subset 2^{\log n} \subset n \log n^2 \subset 2^{3n} \subset n^{n\log n} \subset n^{n^2}$
+
+$f(n)$ is said to be $O(g(n))$ iff $f(n)\leq c g(n)$ $\forall n>n_0 $ where $c>0$, $n_0>0$\\
+Prove $f(n)=\log(n\log n)$ is $O(\log n)$.
+$$
+\log(\log n^n) = \log(n\log n) \leq \log(n^2) = 2\log n \text{ is } O(\log n)
+$$
+
+$\therefore \log(\log n^n) \text{ is } O(\log n)$
+
+\begin{problem}{2}
+Given functions $f_1, f_2, g_1, g_2$ such that $f_1(n)=O(g_1(n))$ and $f_2(n)=O(g_2(n))$, decide whether each statement is true or false and briefly explain why.
+\begin{enumerate}[a)]
+	\item $f_1(n)/f_2(n) = O(g_1(n)/g_2(n))$
+	\item $f_1(n)+f_2(n) = O(\text{max}(g_1(n), g_2(n)))$
+	\item $f_1^2(n) = O(g_1^2(n))$
+	\item $\log f_1(n) = O(\log g_1(n))$
+\end{enumerate}
+\end{problem}
+
+a) \textit{Answer: } True
+\begin{align*}
+\exists N \in \mathbb{N} \text{ and } c_1,c_2 \in \mathbb{R} \text{ s.t. } \forall n \in \mathbb{N} \text{ and } n &\geq N, \\
+\frac{f_1(n)}{f_2(n)} &\leq \frac{c_1g_1(n)}{c_2g_2(n)}\\
+&= (c_1/c_2) g_1(n)/g_2(n) && (\because c_1/c_2 \in \mathbb{R})\\
+&\therefore f_1(n)/f_2(n) = O(g_1(n)/g_2(n))
+\end{align*}
+
+b) \textit{Answer: } True
+\begin{align*}
+f_1(n)+f_2(n)&\leq c_1 g_1(n)+c_2 g_2(n))\\
+&\leq c_1*\text{max}(g_1(n),g_2(n)) + c_2*\text{min}(g_1(n),g_2(n))\\
+&\leq (c_1+c_2)\text{ max}(g_1(n),g_2(n)) \\
+&=O(\text{max}(g_1(n),g_2(n))\\
+&\therefore f_1(n)+f_2(n) = O(\text{max}(g_1(n), g_2(n)))
+\end{align*}
+
+c) \textit{Answer: } True
+\begin{align*}
+\exists N \in \mathbb{N} \text{ and } c \in \mathbb{R} \text{ s.t. } \forall n \in \mathbb{N} \text{ and } n \geq N, \\
+0 \leq f_1(n) &\leq c g_1(n) && (\because f_1(n)=O(g_1(n))) \\
+0^2 \leq f_1^2(n) &\leq (cg_1(n))^2\\
+&= c^2 g_1^2(n) &&(\because c^2\in\mathbb{R})\\
+&\therefore f_1^2(n) = O(g_1^2(n))
+\end{align*}
+
+d) \textit{Answer: } False\\
+Consider the following counterexample.
+\begin{align*}
+\text{Let } f_1(n)&=1 \text{ and }g_1(n) = 2\\ 
+\log_2 f_1(n)&= 0 \neq O(1) = 1 = \log_2 g_1(n)\\
+\therefore \log f_1(n) &\neq O(\log g_1(n))
+\end{align*}
+\textit{Corrections:}\\
+(a): False\\
+Consider the following counter example:
+\begin{align*}
+	f_1(n)&=n^3, g_1(n)=n^3\\ 
+	f_2(n)&=n, g_2(n)=n^3 \\
+	\frac{f_1(n)}{f_2(n)}&=n^2\neq O(1) =\frac{g_1(n)}{g_2(n)}
+\end{align*}
+Big-O is an upper bound, but not necessarily a tight upper bound.
+\begin{problem}{3}
+Given an undirected graph $G$ with $n$ nodes and $m$ edges, design an algorithm in $O(m+n)$ to detect whether $G$ contains a cycle. Your algorithm should output a cycle if there is one. 
+\end{problem}
+\textit{Answer: }
+The following problem can be solved using a depth-first search (DFS) approach where we go down successive levels and see if a neighbor of a deeper node has already been found as a neighbor of a previous node using a list of size $n$ to keep store of visited nodes.
+
+\begin{algorithmic}
+\State Let $\bar{v}$ be a list of size $n$ where $v_i$ is $j$ if $x_j$ visited $x_i$, and 0 otherwise
+\Procedure{detectCycles}{$G$, $x_i$, $x_j$, $\bar{v}$}
+	\State visit $x_i$, so set $v_i$ to $j$, the index of $i$'s parent
+	\For{each neighbor $x_k$ of $x_i$}
+		\If{$v_k$ is already not 0}
+			\If{$x_k$ is not $x_i$'s child}
+				\State return true
+			\EndIf
+		\ElsIf{{detectCycles}($G$,$x_i$,$x_k$, $\bar{v}$)}
+			\State return true
+		\EndIf
+	\EndFor
+	\State return false
+\EndProcedure
+\While {$G$ has unvisited nodes}
+	\State Let $x_1$ be the root or first unvisited node
+	\State detectCycles($G$, 0, $x_1$, $\bar{v}$)
+\EndWhile
+\end{algorithmic}
+
+
+The time complexity of this algorithm is $O(n + m)$, and the space complexity of the algorithm is $O(n)$.
+The algorithm terminates in a finite amount of time since for each connected undirected graph, the algorithm will return false after traversing all neighbors then all neighbors of those those neighbors until every piece of the connected graph has been visited. This DFS traversal takes $O(n+m)$ since only after visiting every node in $G$ through potentially every edge can we deduce whether our graph has a cycle or not.
+
+\begin{problem}{4}
+Given an array $A$ of $n$ integers, return an $n$-by-$n$ matrix $B$ in which $B[i,j]$ (for $i<j$) contains the sum of array entries $A[i]$ to $A[j]$.
+
+\begin{algorithm}
+\caption{Simple algorithm to achieve this}
+\begin{algorithmic}
+\For{$i=1, 2, ..., n$}
+	\For{$j=i+1, i+2, ..., n$}
+		\State{Add up array entires $A[i]$ through $A[j]$}
+		\State{Store result in $B[i,j]$}	
+	\EndFor
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+\begin{enumerate}[a)]
+	\item For some function $f$, give an upper bound in the form $O(f(n))$ on the runtime of this algorithm on an input of size $n$.
+	\item For this same function $f$, show that the runtime of this algorithm on an input of size $n$ is also $\Omega(f(n))$.
+	\item Although this simple algorithm is the most natural way to solve this problem, it contains some highly unnecessary sources of inefficiency. Give a different algorithm to solve this problem with an asymptotically better running time.
+\end{enumerate}
+\end{problem}
+
+\textit{Answer: } 
+
+a) The first loop will make $n$ iterations, and the second will loop will make $n$ more iterations at each of those iterations. At each of these iterations, we want to sum up the $i$th to $j$th element which takes $O(j-i+1)$. In the worst case, this will be take $O(n)$ time per each $n^2$ iterations, so an upper bound on the runtime of this algorithm could be $O(n^3)$.
+
+b) By showing that this algorithm is $\Theta(n^3)$, we can imply that the runtime of this algorithm is also $\Omega(n^3)$. 
+
+Consider the time when $i\leq n/4$ and $j \geq 3n/4$, 
+\begin{align*}
+\text{then } j-i+1 &\geq \frac{3n-n}{4}+1 > \frac{n}{2}\\
+\therefore A[i] + ...  + A[j] &\geq n/2
+\end{align*}
+There are $(\frac{n}{4})^2$ iterations where $i\leq n/4$ and $j \geq 3n/4$, and at each of these iterations, at least $n/2$ work is done. $\Theta(f(n))=\frac{n}{2}(\frac{n}{4})^2= \frac{n^3}{32} \therefore f(n) \text{ is } \Omega(n^3).$
+
+c) This task can be completed in $O(n^2)$ time by precomputing the sums.
+\begin{algorithm}
+\caption{More optimized algorithm to achieve the same task}
+\begin{algorithmic}
+\For {$i = 1,2,..., n$}
+	\State $B[i, i+1] \gets A[i]+A[i+1]$ \Comment{computing the running sum}
+\EndFor
+\For{$j = 2,3,...,n$}
+	\For{$k = 1,2,...,n$}
+		\State $newIdx \gets j+k$
+		\State $B[i, newIdx] \gets B[i, newIdx-1] + A[j]$
+	\EndFor
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+There are $O(n)$ operations to compute running sums for the first column of the matrix. Then for each of the $n$ iterations, there are up to n more iterations, resulting in a runtime of $f(n) = n+(n-2)*n = O(n^2)$.
+
+\begin{problem}{5}
+Consider a researcher's Erdos Number, which for Paul Erdos was 0, for researchers who wrote papers with him was 1, for researchers who wrote papers with researchers who wrote papers with him was 2, and so on, that represents how many degrees of freedom of writing are between writers and Erdos himself. Suppose we have a database of all mathematical papers ever written along with their authors.
+\begin{enumerate}[a)]
+	\item Explain how to represent this data as a graph.
+	\item Explain how we would compute the Erdos number for a particular researcher.
+	\item Explain how we would determine all researchers with Erdos numbers at most two.
+\end{enumerate} 
+\end{problem}
+\textit{Answer: }
+
+a) Let G be an undirected graph where authors are nodes and an edge between nodes X and Y represent whether author X cowrote a paper with author Y. This graph could represent mathematicians and their authorship to be able to compute Erdos Numbers
+
+b) To compute the Erdos Number of a particular researcher, find the number of minimum number edges which are taken to connect the particular researcher to Paul Erdos, then that number of edges is the researcher's Erdos number.
+
+c) Beginning at the root who is Paul Erdos, conducting a breadth-first search on his node would mean going through the graph $G$ level by level where Erdos number is given by level of depth. All researchers with Erdos numbers at most 2 would be whoever would be visited after running BFS beginning with Erdos's coauthors then visiting the coauthors of Erdos's coauthors, and upon visiting someone who is 3 levels away from Erdos, the search should terminiate, resulting with the set of authors visited as being those with Erdos number of at most 2.
+
+\begin{problem}{6}
+Given a directed acyclic graph, give a linear time algorithm to determine if there is a simple path that visits all vertices.
+\end{problem}
+\textit{Answer: } 
+
+By conducting a topological sort on a DAG, we can see whether "all prerequisites have been met" or a simple path exists between all vertices.
+
+\begin{algorithm}
+\caption{Algorithm to see if there exists a path visits all verticies}
+\begin{algorithmic}
+\State Let $G$ be a DAG
+\State Let $v$ be a list of in-degrees for $n$ nodes
+\State Let $t$ be an empty list for the result ordering
+\For {every node $i$ in $G$}
+	\State $v_i \gets$ in-degree of node $i$
+\EndFor
+\State Let $q$ be a queue initialized to all nodes with in-degree 0
+\While{$q$ is not empty}
+	\If{all nodes have been dequeued}
+		\State return false
+	\EndIf
+	\State dequeue from $q$ to get node $i$
+	\State add $i$ to the topological ordering $t$
+	\For{all out going edges $(i,j)$}
+		\State $v_j \gets v_j-1$
+		\If{$v_j$ is 0}
+			\State add $u$ to $q$
+		\ElsIf{$v_j$ is -1}
+			\State return false
+		\EndIf
+	\EndFor
+\EndWhile
+\If{$t$ has $n$ elements}
+	\State return true
+\Else
+	\State return false
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+This algorithm runs in $O(n)$. At each iteration, there can be up to $|E|$ or $m$ iterations to neighboring nodes, so for each $n$ nodes, there can be up to $m$ amounts of work, so the runtime for the algorithm will be less than or equal to $mn$, but since $m$ is a constant and cannot occur everytime, the runtime is $O(n)$. This algorithm is based on creating a topological ordering of all nodes, and if not, it returns false after doing some constant amount of work on each node, thus taking linear time. 
+\end{document}
