@@ -173,6 +173,9 @@ The shortest path is not the same as before with different edge weights, but rat
 \begin{problem}{5}
     Consider a directed, weighted graph $G$ where all edge weights are positive. Propose an efficient method based on Dijkstra's algorithm to find a lowest-cost path from node $s$ to node $t$, given that you may set one edge weight to zero.
 \end{problem}
-\textit{Answer:} Dijkstra's algorithm is able to give us the distance from a start node to every other node. Given that we know our start node and end node, we can run Dijkstra's twice beginning once with the start node to every other node and once with the end node to every other node. Given arbitary $u\in V$, the shortest path from $s$ to $u$ was given by the first run of Dijkstra's while the shortest from $u$ to $t$ was given by the first run of Dijkstra's.
+\textit{Answer:} Dijkstra's algorithm is able to give us the distance from a start node to every other node. Given that we know our start node and end node, we can run Dijkstra's twice beginning once with the start node to every other node and once from the end node to every other node after reversing the edge directions in the graph. Let the result from the first Dijkstra's from $s$ be the res[i]. Let the result of the distance from every node to $t$ be stored in reverse[i].
 
+Given arbitary $u,v\in V$, the shortest path from $s$ to $u$ was given by the first run of Dijkstra's and is stored in res[$u$]. Similarly, the shortest path from $v$ to $t$ is stored in reverse[$v$]. Going down the path of $s \rightarrow u \rightarrow v \rightarrow t$, we can find the maximum difference between res[u]+ reverse[v] + e and res[u]+ reverse[v]. When we find  the maximum difference, we know that this is the edge that we can remove that then results in the shortest path. 
+
+We can loop through all nodes that are found in the path, and at each pair of edges, we can do the above check to then find the maximum edge weight that would result in the new shortest path when becoming zero.
 \end{document}
