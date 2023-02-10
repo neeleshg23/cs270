@@ -1,0 +1,33 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,hyperref,array,xcolor,multicol,verbatim,mathpazo,algorithm,algpseudocode}
+\usepackage[normalem]{ulem}
+\usepackage[pdftex]{graphicx}
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\begin{document}
+
+\title{\vspace{-4cm}CS 270 Exam 1 True/False Repository Answers}
+\author{Neel Gupta}
+\maketitle
+
+\textit{Answer:}
+\begin{enumerate}
+    \item False. Takes $O(n)$ time.
+    \item False. Greedy algorithms consider smaller search spaces.
+    \item True. The larger weights will get removed by creating the MST.
+    \item False. The paths can change after the edge weights are squared.
+    \item True. By cut property, you can use BFS on an undirected graph to get cycles.
+    \item False. BFS is not a divide and conquer algorithm.
+    \item True. The cheapest edge must be part of the MST.
+    \item False. DFS finds the shortest paths.
+    \item False. You cannot run BFS on a weighted graph which runs in linear time.
+    \item True. Each minimum takes $O(\log n)$ and it does this $k$ times.
+    \item False. Similar to merge sort, merging two sorted lists into a sorted list takes $O(\log n)$.
+    \item False. Same as 9
+    \item True. Prim's algorithm values faster runtimes to get the minimum edge weight that connects $S$ to $V-S$.
+    \item 
+\end{enumerate}
+
+\end{document}
