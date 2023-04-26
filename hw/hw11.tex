@@ -1,0 +1,144 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,hyperref,array,xcolor,multicol,verbatim,mathpazo,algorithm,algpseudocode,enumerate,tikz}
+\usepackage[normalem]{ulem}
+\usepackage{graphicx}
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\begin{document}
+
+%%%% In most cases you won't need to edit anything above this line %%%%
+
+\title{\vspace{-4cm}CS 270 Homework 11}
+\author{Neel Gupta} 
+\maketitle
+
+\begin{problem}{1}
+    Determine if the following statements are true or false. For each statement, briefly explain your reasoning.
+    \begin{enumerate}[(a)]
+        \item If Ham-Cycle is polynomial time reducible to interval scheduling problem then P = NP.
+        \item The NP-Hard class of problems does not contain any decision problems.
+        \item If there exists an algorithm that solves problem X with pseudo-polynomial runtime, then X must be NP-Hard.
+        \item Suppose there is a 7-approximation algorithm for the general Traveling Salesman Problem. Then there exists a polynomial time solution for the 3-SAT problem.
+        \item A vertex that is part of a minimum vertex cover can never be a part of the maximum independent set.
+    \end{enumerate}
+\end{problem}
+
+\textit{Answer:}
+
+\begin{enumerate}[(a)]
+    \item True. If Ham-Cycle, which a known NP-Complete problem, were polynomial time reducible to interval schedule, a question with a polynomial time solution, it would then imply P = NP.
+    \item False. The 3-SAT problem is a famous NP-Complete problem and is a decision problem, and decision problems are at least as hard as other problems in NP-Hard.
+    \item False. The 0/1 Knapsack problem has a pseudo-polynomial runtime algorithm, but this does not imply that the problem is NP-Hard.
+    \item False. An approximation algorithm would only provide a solution for the TSP problem and does not imply anything about the 3-SAT problem.
+    \item True. A vertex belonging to a minimum vertex cover is, by definition, not part of the maximum independent set, as they are complements of each other.
+\end{enumerate}
+
+\begin{problem}{2}
+    Given an undirected graph with positive edge weights, the BIG-HAM-CYCLE problem is to decide if it contains a Hamiltonian cycle C such that the sum of the weights of the edges in C is at least of the total sum of weights of edges in the graph. Show that finding BIG-HAM-CYCLE in a graph is NP-Complete.
+\end{problem}
+
+\textit{Answer:}
+
+We want to first show that BIG-HAM-CYCLE is in NP, then we want to show that it is NP-hard.
+
+Given a graph $G=(V,E)$ with edge weights $w(e)$, we can verify in polynomial time whether a given cycle $C$ is a valid Hamiltonian cycle and if the sum of edge weights in $C$ is at least half of the total sum of edge weights in the graph. We can check that every vertex in $V$ is visited exactly once in $C$ and that the sum of weights in $C$ is at least $\frac{1}{2} \sum_{e \in E} w(e)$. Thus, the BIG-HAM-CYCLE problem is in NP.
+
+To show that BIG-HAM-CYCLE is NP-hard, we will reduce the Hamiltonian Cycle Problem (HAM-CYCLE), a known NP-hard problem, to the BIG-HAM-CYCLE problem. The reduction should be able to be computed within polynomial time.
+
+Given an instance of the HAM-CYCLE problem with a graph $G=(V,E)$, we will construct a graph $G'$ for the BIG-HAM-CYCLE problem as follows:
+
+\begin{enumerate}
+\item Keep the same graph with the same vertices and edges.
+\item Assign each edge a weight of 1.
+\end{enumerate}
+
+Now, we can show that $G$ has a Hamiltonian cycle if and only if $G'$ has a BIG-HAM-CYCLE.
+
+Forward: Suppose $G$ has a Hamiltonian cycle $H$. The corresponding cycle in $G'$ with the same edges as $H$ will have a total weight of $|V|$. As the sum of all edge weights in $G'$ is equal to the number of edges ($|E|$) and $|V| \leq |E|$, this cycle is a valid BIG-HAM-CYCLE in $G'$.
+
+Backward: Suppose $G'$ has a BIG-HAM-CYCLE $C$. Since the cycle visits all vertices and has a total weight of at least half the total sum of weights in the graph, it must be a Hamiltonian cycle in the original graph $G$.
+
+Therefore, the BIG-HAM-CYCLE problem is NP-Complete since it is in NP and at least as hard as another NP-hard problem.
+
+\begin{problem}{3}
+    Given an undirected connected graph $G=(V,E)$ in which a certain number of tokens $t(v)=1, 2$ placed on each vertex $v$. You will now play the following game. You pick a vertex $u$ that contains at least two tokens, remove two tokens from $u$ and add one token to any one of the adjacent vertices. The objective of the game is to perform a sequence of moves such that you are left with exactly one token in the whole graph. You are not allowed to pick a vertex with 0 or 1 token. Prove that the problem of finding such a sequence of moves is NP-Hard by reduction from Hamiltonian Path.
+\end{problem}
+
+\textit{Answer: }
+
+We reduce Hamiltonian Path (HP) to the token game problem to show it is in NP-hard. Given a HP instance with graph $G=(V, E)$, construct a token game instance as follows:
+\begin{enumerate}
+    \item For $v \in V$, set $t(v) = 2$.
+    \item For $(u, v) \in E$, add vertex $w_{u,v}$ with $t(w_{u,v}) = 1$, and edges $(u, w_{u,v})$, $(w_{u,v}, v)$.
+\end{enumerate}
+
+Forward: Given HP $P$ in $G$, construct a sequence of moves:
+
+\begin{enumerate}
+    \item For $v \in V$, remove 2 tokens from $v$, add 1 token to the adjacent vertex in $P$.
+    \item For $w_{u,v}$ in $P$, remove 2 tokens from $w_{u,v}$, add 1 token to the adjacent vertex in $P$.
+\end{enumerate}
+    
+One token remains, so Hamiltonian Path implies a valid sequence.
+
+Backward: Given a valid sequence with one token remaining, since the initial total tokens is $2|V| + |E|$ and each move decreases tokens by 1, the number of moves is $2|V| + |E| - 1$.
+
+Since each $v \in V$ must be involved in a move (initially 2 tokens), there must be a path visiting every vertex exactly once, a Hamiltonian Path.
+
+Thus, the token game problem is NP-hard.
+
+\begin{problem}{4}
+    In a certain town, there are many clubs, and every adult belongs to at least one club. The town's people would like to simplify their social life by disbanding as many clubs as possible, but they want to make sure that afterwards everyone will still belong to at least one club. Formally, the Redundant Clubs problem has the following input and output. INPUT: List of people; list of clubs; list of members of each club; number K. OUTPUT: Yes if there exists a set of K clubs such that, after disbanding all clubs in this set, each person still belongs to at least one club. No otherwise. Prove that the Redundant Clubs problem is NP-Complete.
+\end{problem}
+
+\textit{Answer:} 
+
+We will prove the Redundant Clubs problem is NP-Complete by first showing that it is in NP then reducing it to the Set Cover problem, a known NP-hard problem, to the Redundant Clubs problem. The reduction should be able to be computed within polynomial time.
+
+To show that the Redundant Clubs problem is in NP, we can verify in polynomial time that, given a set of K clubs to disband, every person still belongs to at least one club.
+
+Given an instance of the Set Cover problem with a universe $U$, a collection of sets $S$, and an integer $k$, we will construct an instance of the Redundant Clubs problem as follows:
+\begin{enumerate}
+    \item People: $U$
+    \item Clubs: $S$
+    \item Membership: person $u \in U$ belongs to clubs corresponding to the sets containing $u$ in $S$.
+    \item Set $K = |S| - k$.
+\end{enumerate}
+
+Now, we can show that there exists a set cover of size $k$ in the Set Cover instance if and only if there exists a set of $K$ clubs to disband in the Redundant Clubs instance, leaving everyone with at least one club membership.
+
+Forward: Given a set cover $S'$ of size $k$, disband clubs in $S - S'$. Each person in $U$ belongs to at least one set in $S'$, so everyone still has at least one club membership.
+
+Backward: Given a set of $K$ clubs to disband, the remaining clubs form a set cover of size $k$ in the Set Cover instance. All people in $U$ have membership in at least one club, corresponding to the sets in $S$ that cover the universe $U$.
+
+Since the Redundant Clubs problem is in NP and we have shown a polynomial-time reduction from the Set Cover problem, which is NP-hard, the Redundant Clubs problem is NP-Complete.
+
+\begin{problem}{5}
+    Given a graph $G=(V,E)$ with an even number of vertices as the input, the HALF-IS problem is to decide if $G$ has an independent set of size $\frac{|V|}{2}$. Prove that HALF-IS is in NP-Complete.
+\end{problem}
+
+\textit{Answer:}
+
+To prove that HALF-IS is NP-Complete, we first show that it is in NP and then show that it is NP-hard by reducing the Independent Set problem, a known NP-hard problem, to HALF-IS.
+
+Given a graph $G=(V,E)$ and a subset $V' \subseteq V$ with size $\frac{|V|}{2}$, we can verify in polynomial time whether $V'$ is an independent set by checking that no pair of vertices in $V'$ share an edge. Therefore, HALF-IS is in NP.
+
+Reduction from Independent Set to HALF-IS: Given an Independent Set instance with a graph $G'=(V',E')$ and an integer $k$, construct a graph $G=(V,E)$ as follows:
+\begin{enumerate}
+    \item Include all vertices and edges from $G'$ in $G$.
+    \item Add a new set of isolated vertices $I$ to $G$, with size $|V'| - 2k$.
+    \item Set $V = V' \cup I$.
+\end{enumerate}
+
+Now, we can show that the Independent Set instance has an independent set of size $k$ if and only if the graph $G$ has an independent set of size $\frac{|V|}{2}$.
+
+Forward: Given an independent set $A$ of size $k$ in $G'$, construct an independent set $B$ in $G$ by including all vertices from $A$ and all isolated vertices from $I$. The size of $B$ is $k + (|V'| - 2k) = \frac{|V|}{2}$, and since no vertices in $I$ are connected to any other vertices, $B$ is an independent set.
+
+Backward: Given an independent set $B$ of size $\frac{|V|}{2}$ in $G$, remove all vertices from $I$ to obtain an independent set $A$ in $G'$. Since $|B| = \frac{|V|}{2} = k + (|V'| - 2k)$, the size of $A$ is $k$. Thus, $G'$ has an independent set of size $k$.
+
+Since HALF-IS is in NP and we have shown a polynomial-time reduction from the NP-hard Independent Set problem, HALF-IS is NP-Complete.
+
+\end{document}
